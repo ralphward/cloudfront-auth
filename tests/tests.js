@@ -70,41 +70,38 @@ server.on('request', function(req, res){
 server.listen(testConfig.port);
 
 // Toggle ngrok auth if necessary
-switch(testConfig.auth) {
-  case("y"):
-    // Generate password for ngrok
-    var generator = require('generate-password');
-    var username = generator.generate({
-      length: 10,
-      numbers: true
-    });
-    var password = generator.generate({
-      length: 10,
-      numbers: true
-    });
-    console.log(colors.red("USERNAME: ") + colors.green(username));
-    console.log(colors.red("PASSWORD: ") + colors.green(password));
-    ngrok.connect({
-      addr: testConfig.port,
-      auth: username + ':' + password    
-    }, function(err, url){
-      if (err) {
-        console.log(err);
-        exit(1);
-      }
-      setupRedirect(url, testConfig.lambdaFunction);
-    });
-    break;
-  case("n"):
-  default:
-    ngrok.connect(testConfig.port, function(err, url){
-      if (err) {
-        console.log(err);
-        exit(1);
-      }
-      setupRedirect(url, testConfig.lambdaFunction);
-    });
-}
+(async function() {
+  try {
+    switch(testConfig.auth) {
+      case("y"):
+        // Generate password for ngrok
+        var generator = require('generate-password');
+        var username = generator.generate({
+          length: 10,
+          numbers: true
+        });
+        var password = generator.generate({
+          length: 10,
+          numbers: true
+        });
+        console.log(colors.red("USERNAME: ") + colors.green(username));
+        console.log(colors.red("PASSWORD: ") + colors.green(password));
+        var url = await ngrok.connect({
+          addr: testConfig.port,
+          auth: username + ':' + password
+        });
+        setupRedirect(url, testConfig.lambdaFunction);
+        break;
+      case("n"):
+      default:
+        var url = await ngrok.connect(testConfig.port);
+        setupRedirect(url, testConfig.lambdaFunction);
+    }
+  } catch (err) {
+    console.log(err);
+    process.exit(1);
+  }
+})();
 
 // Prompt user to enter temporary ngrok url as redirect uri
 function setupRedirect(url, lambdaFunction) {
