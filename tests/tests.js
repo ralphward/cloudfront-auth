@@ -36,6 +36,7 @@ var testConfig = JSON.parse(fs.readFileSync("distributions/" + DISTRIBUTION + "/
 AWS.config.update({
   accessKeyId: testConfig.aws.accessKeyId,
   secretAccessKey: testConfig.aws.secretAccessKey,
+  sessionToken: testConfig.aws.sessionToken,
   region: testConfig.aws.region
 });
 var lambda = new AWS.Lambda();
