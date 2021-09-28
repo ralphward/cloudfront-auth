@@ -2,7 +2,7 @@ resource "aws_secretsmanager_secret" "key_pair" {
   name                    = "${var.name}/key-pair"
   recovery_window_in_days = 0
   tags                    = var.tags
-  kms_key_id              = var.kms_key_arn
+  kms_key_id              = var.kms_key_arn[0]
 }
 
 resource "aws_secretsmanager_secret_rotation" "key_pair" {

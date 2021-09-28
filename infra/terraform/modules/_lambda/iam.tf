@@ -32,7 +32,7 @@ data "aws_iam_policy_document" "execution" {
     for_each = var.kms_key_arn
     content {
       actions   = ["kms:Decrypt","kms:GenerateDataKey"]
-      resources = [ var.kms_key_arn ]
+      resources = [ statement.value ]
     }
   }
 }

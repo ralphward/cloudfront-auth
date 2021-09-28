@@ -30,7 +30,7 @@ module "auth" {
   timeout                  = 5
   iam_policy_override_json = data.aws_iam_policy_document.auth.json
   lambda_at_edge           = true
-  kms_key_arn              = var.kms_key_arn
+  kms_key_arn              = var.kms_key_arn[0]
 }
 
 module "rotation" {
