@@ -23,6 +23,11 @@ data "aws_iam_policy_document" "execution" {
 
     resources = ["arn:aws:logs:*:*:*"]
   }
+
+  statement {
+    actions   = ["kms:Decrypt","kms:GenerateDataKey"]
+    resources = ["*"]
+  }
 }
 
 resource "aws_iam_role" "lambda" {
