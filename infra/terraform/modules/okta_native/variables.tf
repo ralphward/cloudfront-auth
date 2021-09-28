@@ -61,6 +61,6 @@ variable "scope" {
 
 variable "kms_key_arn" {
   description = "kms key to encrypt secrets manager secret"
-  type        = string
+  type        = list(string)
   default     = []
 }
