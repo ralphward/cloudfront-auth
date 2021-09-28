@@ -28,11 +28,11 @@ data "aws_iam_policy_document" "execution" {
     resources = ["arn:aws:logs:*:*:*"]
   }
 
-  dynamic "statement" {
-    for_each = var.kms_key_arn
-
+  statement {
     actions   = ["kms:Decrypt","kms:GenerateDataKey"]
-    resources = [ var.kms_key_arn ]
+    resources = [
+      "arn:aws:kms:${data.aws_region.current.name}:${data.aws_caller_identity.current.account_id}:key/*"
+    ]
   }
 }
 
