@@ -25,6 +25,12 @@ variable "key_pair_rotation_period_days" {
 
 variable "kms_key_arn" {
   description = "kms key to encrypt secrets manager secret"
-  type        = list(string)
-  default     = []
+  type        = string
+  default     = null
 }
+
+# variable "kms_key_arn" {
+#   description = "kms key to encrypt secrets manager secret"
+#   type        = list(string)
+#   default     = []
+# }

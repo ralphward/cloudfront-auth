@@ -33,6 +33,13 @@ variable "lambda_at_edge" {
 
 variable "kms_key_arn" {
   description = "kms key to encrypt secrets manager secret"
-  type        = list(string)
-  default     = []
+  type        = string
+  default     = null
 }
+
+# For dynamic
+# variable "kms_key_arn" {
+#   description = "kms key to encrypt secrets manager secret"
+#   type        = list(string)
+#   default     = []
+# }

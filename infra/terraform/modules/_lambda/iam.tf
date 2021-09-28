@@ -1,7 +1,3 @@
-data "aws_caller_identity" "current" {}
-
-data "aws_region" "current" {}
-
 data "aws_iam_policy_document" "assume_role" {
   statement {
     actions = ["sts:AssumeRole"]
@@ -28,14 +24,20 @@ data "aws_iam_policy_document" "execution" {
     resources = ["arn:aws:logs:*:*:*"]
   }
 
-  dynamic "statement" {
-    for_each = var.kms_key_arn
-    content {
-      actions   = ["kms:Decrypt","kms:GenerateDataKey"]
-      resources = [ "*" ]
-      #resources = [ statement.value ]
-    }
+  statement {
+    actions   = ["kms:Decrypt","kms:GenerateDataKey"]
+    resources = [
+      "arn:aws:kms:${data.aws_region.current.name}:${data.aws_caller_identity.current.account_id}:key/*"
+    ]
   }
+
+  # dynamic "statement" {
+  #   for_each = var.kms_key_arn
+  #   content {
+  #     actions   = ["kms:Decrypt","kms:GenerateDataKey"]
+  #     resources = [ statement.value ]
+  #   }
+  # }
 }
 
 resource "aws_iam_role" "lambda" {
