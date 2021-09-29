@@ -59,15 +59,15 @@ variable "scope" {
   default     = "openid email"
 }
 
-variable "kms_key_arn" {
-  description = "kms key to encrypt secrets manager secret"
-  type        = string
-  default     = null
-}
-
-# for dynamic
 # variable "kms_key_arn" {
 #   description = "kms key to encrypt secrets manager secret"
-#   type        = list(string)
-#   default     = []
+#   type        = string
+#   default     = null
 # }
+
+# for dynamic
+variable "kms_key_arn" {
+  description = "kms key to encrypt secrets manager secret"
+  type        = list(string)
+  default     = []
+}
