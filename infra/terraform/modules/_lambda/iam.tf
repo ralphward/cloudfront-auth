@@ -28,21 +28,12 @@ data "aws_iam_policy_document" "execution" {
     resources = ["arn:aws:logs:*:*:*"]
   }
 
-  dynamic "statement" {
-    for_each = var.kms_key_arn
-    content {
-      actions   = ["kms:Decrypt","kms:GenerateDataKey"]
-      resources = [ statement.value ]
-    }
+  statement {
+    actions   = ["kms:Decrypt","kms:GenerateDataKey"]
+    resources = [
+      "arn:aws:kms:${data.aws_region.current.name}:${data.aws_caller_identity.current.account_id}:key/*"
+    ]
   }
-
-  # statement {
-  #   actions   = ["kms:Decrypt","kms:GenerateDataKey"]
-  #   resources = [
-  #     "arn:aws:kms:${data.aws_region.current.name}:${data.aws_caller_identity.current.account_id}:key/*"
-  #     #"arn:aws:kms:us-east-1:553479592532:key/d9512cfd-ea35-485a-ae29-1c38e3a4259f"
-  #   ]
-  # }
 
 }
 
