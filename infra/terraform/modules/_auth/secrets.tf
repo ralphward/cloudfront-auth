@@ -3,7 +3,7 @@ resource "aws_secretsmanager_secret" "key_pair" {
   recovery_window_in_days = 0
   tags                    = var.tags
   #kms_key_id              = var.kms_key_arn
-  kms_key_id              = var.kms_key_arn != [] ? var.kms_key_arn[0] : null # for dynamic
+  kms_key_id              = var.kms_key_arn != null ? var.kms_key_arn[0] : null # for dynamic
 }
 
 resource "aws_secretsmanager_secret_rotation" "key_pair" {
