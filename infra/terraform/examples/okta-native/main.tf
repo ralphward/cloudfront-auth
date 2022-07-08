@@ -3,7 +3,7 @@ locals {
 }
 
 module "auth" {
-  source = "github.com/iress/cloudfront-auth//infra/terraform/modules/okta_native"
+  source = "github.com/ralphward/cloudfront-auth//infra/terraform/modules/okta_native"
 
   release_version = "v3.0.0"
   name            = local.name
